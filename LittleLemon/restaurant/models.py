@@ -1,4 +1,5 @@
 from django.db import models
+from rest_framework.permissions import IsAuthenticated
 
 # Create your models here.
 class Booking(models.Model):
@@ -18,3 +19,12 @@ class Menu(models.Model):
 
     def __str__(self):
         return self.tittle
+    
+class MenuItem(models.Model):
+    permission_classes = [IsAuthenticated]
+    title = models.CharField(max_length=255)
+    price = models.DecimalField(max_digits=6, decimal_places=2)
+    inventory = models.SmallIntegerField()
+
+    def get_item(self):
+        return f'{self.title} : {str(self.price)}'
